@@ -7,15 +7,15 @@ IDA_INSTALL_DIRS = {
     
     # On Windows, the folder is at C:\Program Files (x86)\IDA %d\plugins
     'win32' : {
-        '6.8' : os.path.join(os.environ["ProgramFiles(x86)"], "IDA 6.8", "plugins"),
-        '6.9' : os.path.join(os.environ["ProgramFiles(x86)"], "IDA 6.9", "plugins"),
-        '7.0' : os.path.join(os.environ["ProgramFiles(x86)"], "IDA 7.0", "plugins"),
+        '6.8' : os.path.join(os.environ.get("ProgramFiles(x86)", "KeyError"), "IDA 6.8", "plugins"),
+        '6.9' : os.path.join(os.environ.get("ProgramFiles(x86)", "KeyError"), "IDA 6.9", "plugins"),
+        '7.0' : os.path.join(os.environ.get("ProgramFiles", "KeyError"), "IDA 7.0", "plugins"),
     },
 
     'cygwin': {
-        '6.8' : os.path.join(os.environ["ProgramFiles(x86)"], "IDA 6.8", "plugins"),
-        '6.9' : os.path.join(os.environ["ProgramFiles(x86)"], "IDA 6.9", "plugins"),
-        '7.0' : os.path.join(os.environ["ProgramFiles(x86)"], "IDA 7.0", "plugins"),
+        '6.8' : os.path.join(os.environ.get("ProgramFiles(x86)", "KeyError"), "IDA 6.8", "plugins"),
+        '6.9' : os.path.join(os.environ.get("ProgramFiles(x86)", "KeyError"), "IDA 6.9", "plugins"),
+        '7.0' : os.path.join(os.environ.get("ProgramFiles", "KeyError"), "IDA 7.0", "plugins"),
     },
 
     # On MacOS, the folder is at /Applications/IDA\ Pro\ %d/idaq.app/Contents/MacOS/plugins
