@@ -78,7 +78,7 @@ class IdaPluginInstallCommand(install):
         import pip
 
         for dependency in dist.install_requires:
-            print("[IDA PLUGIN INSTALL] installing dependency %s -> %s" % (dependency, install_dir))
+            self.announce("[IDA PLUGIN INSTALL] installing dependency %s -> %s" % (dependency, install_dir), level=distutils.log.INFO)
 
             if not dist.dry_run:
                 pip.main(['install', '-t', install_dir, "--ignore-installed" ,  dependency])
@@ -88,7 +88,7 @@ class IdaPluginInstallCommand(install):
         """ Install python packages """
 
         for package in dist.packages:
-            print("[IDA PLUGIN INSTALL] copy package %s -> %s" % (package, install_dir))
+            self.announce("[IDA PLUGIN INSTALL] copy package %s -> %s" % (package, install_dir), level=distutils.log.INFO)
 
             if not dist.dry_run:
                 self.copy_tree(package, os.path.join(install_dir, package))
