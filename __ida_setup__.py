@@ -1,6 +1,8 @@
 import os
 import sys
-from distutils.core import setup, Command
+import distutils
+from distutils.core import setup
+from setuptools.command.install import install
 
 
 IDA_INSTALL_DIRS = {
@@ -39,13 +41,14 @@ IDA_INSTALL_DIRS = {
     }   
 }       
 
-class IdaPluginInstallCommand(Command):
+class IdaPluginInstallCommand(install):
     description = "install the current plugin in IDA plugin folder."
-    user_options = [
+    user_options = install.user_options + [
         ('ida=', None, 'specify ida version.'),
     ]
 
     def initialize_options(self):
+        install.initialize_options(self)
         self.ida = None # locate default ida version
 
     def finalize_options(self):
@@ -62,7 +65,7 @@ class IdaPluginInstallCommand(Command):
         assert self.ida in IDA_INSTALL_DIRS[sys.platform].keys(), 'Supported IDA on this platform : %s' % IDA_INSTALL_DIRS[sys.platform].keys()
 
     def install_dependencies(self, dist, install_dir):
-        # type:  (distutils.core.Command, setuptools.dist.Distribution, str) -> void
+        # type:  (distutils.core.install, setuptools.dist.Distribution, str) -> void
         """ Recursively install dependency using pip (for those on pipy) """
 
         if not len(dist.install_requires):
@@ -81,7 +84,7 @@ class IdaPluginInstallCommand(Command):
                 pip.main(['install', '-t', install_dir, "--ignore-installed" ,  dependency])
 
     def install_packages(self, dist, install_dir):
-        # type:  (distutils.core.Command, setuptools.dist.Distribution, str) -> void
+        # type:  (distutils.core.install, setuptools.dist.Distribution, str) -> void
         """ Install python packages """
 
         for package in dist.packages:
@@ -91,7 +94,7 @@ class IdaPluginInstallCommand(Command):
                 self.copy_tree(package, os.path.join(install_dir, package))
 
     def install_plugins(self, dist, install_dir):
-        # type:  (distutils.core.Command, setuptools.dist.Distribution, str) -> void
+        # type:  (distutils.core.install, setuptools.dist.Distribution, str) -> void
         """ Install ida plugins entry points """
 
         for plugin in dist.package_data['ida_plugins']:
@@ -110,5 +113,3 @@ class IdaPluginInstallCommand(Command):
         self.install_dependencies(dist, install_dir)
         self.install_packages(dist, install_dir)
         self.install_plugins(dist, install_dir)
-
-        

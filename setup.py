@@ -31,5 +31,5 @@ setup(
     },
     
     # monkey patch install script for IDA plugin custom install
-    cmdclass={'ida_install': IdaPluginInstallCommand}
+    cmdclass={'install': IdaPluginInstallCommand}
 )
