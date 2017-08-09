@@ -97,8 +97,9 @@ class IdaPluginInstallCommand(install):
         # type:  (distutils.core.install, setuptools.dist.Distribution, str) -> void
         """ Install ida plugins entry points """
 
-        for plugin in dist.package_data['ida_plugins']:
-            print("[IDA PLUGIN INSTALL] copy plugin %s -> %s" % (plugin, install_dir))
+        ida_plugins = dist.package_data.get('ida_plugins', [])
+        for plugin in ida_plugins:
+            self.announce("[IDA PLUGIN INSTALL] copy plugin %s -> %s" % (plugin, install_dir), level=distutils.log.INFO)
 
             if not dist.dry_run:
                 self.copy_file(plugin,install_dir)

@@ -23,7 +23,11 @@ setup(
     # Either explicitely declare packages, or rely on setuptools.find_packages
     packages = find_packages(),
 
-    # __idasetup__ rely on 'ida_plugins' key to install
+    # necessary files that are not part of a package
+    # __ida_setup__ must absolutely be a part of it
+    py_modules = ['__ida_setup__', 'my_2$_plugin_t'], 
+
+    # __ida_setup__ rely on 'ida_plugins' key to install
     # plugin entries at the '$IDA_DIR\plugins' root level
     package_data={
         # Add any ida python plugin here
